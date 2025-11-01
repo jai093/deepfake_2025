@@ -1,1 +1,4 @@
 project_id = "xwwzrqzmrvizpszrvutc"
+
+[functions.analyze-deepfake]
+verify_jwt = false

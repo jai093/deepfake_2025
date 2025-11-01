@@ -95,59 +95,47 @@ const analyzeWithMultiModel = (imageData: Blob): MLAnalysisResult => {
 
 export const analyzeImageWithML = async (imageData: string | Blob): Promise<MLAnalysisResult> => {
   try {
-    // Initialize the model if not already loaded
-    const model = await initializeDetector();
+    // Convert image to base64 for API call
+    let imageBase64: string;
     
-    if (!model) {
-      console.log('Model not available, falling back to multi-model heuristic analysis');
-      if (imageData instanceof Blob) {
-        return analyzeWithMultiModel(imageData);
-      }
-    }
-    
-    // Convert Blob to URL for model input
-    let imageUrl: string;
     if (imageData instanceof Blob) {
-      imageUrl = URL.createObjectURL(imageData);
+      imageBase64 = await new Promise<string>((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.readAsDataURL(imageData);
+      });
     } else {
-      imageUrl = imageData;
+      imageBase64 = imageData;
     }
     
-    console.log('Running maggleboy/av_deepfake_detection model...');
-    const predictions = await model(imageUrl);
-    console.log('Model predictions:', predictions);
+    console.log('Calling backend deepfake detection API with maggleboy/av_deepfake_detection...');
     
-    // Clean up URL if we created it
-    if (imageData instanceof Blob) {
-      URL.revokeObjectURL(imageUrl);
+    // Call the backend edge function
+    const response = await fetch(
+      `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/analyze-deepfake`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ imageBase64 }),
+      }
+    );
+    
+    if (!response.ok) {
+      throw new Error(`API call failed: ${response.status}`);
     }
     
-    // Parse predictions - the model outputs labels like "fake" or "real"
-    const fakePrediction = predictions.find((p: any) => 
-      p.label.toLowerCase().includes('fake') || p.label.toLowerCase().includes('deepfake')
-    );
-    const realPrediction = predictions.find((p: any) => 
-      p.label.toLowerCase().includes('real') || p.label.toLowerCase().includes('authentic')
-    );
-    
-    const fakeScore = fakePrediction ? fakePrediction.score * 100 : 0;
-    const realScore = realPrediction ? realPrediction.score * 100 : 100;
-    
-    const isDeepfake = fakeScore > realScore;
-    const confidence = Math.max(fakeScore, realScore);
+    const result = await response.json();
+    console.log('Backend API deepfake detection result:', result);
     
     return {
-      isDeepfake,
-      confidence,
-      features: {
-        artificialPatterns: isDeepfake ? fakeScore : (100 - realScore),
-        naturalFeatures: isDeepfake ? (100 - fakeScore) : realScore,
-        textureConsistency: isDeepfake ? (100 - fakeScore) * 0.85 : realScore * 0.9,
-        lighting: isDeepfake ? (100 - fakeScore) * 0.8 : realScore * 0.88
-      }
+      isDeepfake: result.isDeepfake,
+      confidence: result.confidence,
+      features: result.features
     };
   } catch (error) {
-    console.error('ML analysis failed:', error);
+    console.error('Backend API call failed:', error);
     console.log('Falling back to multi-model heuristic analysis');
     
     // Fallback to heuristic analysis
