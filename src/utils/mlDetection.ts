@@ -97,8 +97,10 @@ export const analyzeImageWithML = async (imageData: string | Blob): Promise<MLAn
   try {
     // Convert image to base64 for API call
     let imageBase64: string;
+    let fileName: string = '';
     
     if (imageData instanceof Blob) {
+      fileName = (imageData as File).name || '';
       imageBase64 = await new Promise<string>((resolve) => {
         const reader = new FileReader();
         reader.onloadend = () => resolve(reader.result as string);
@@ -118,7 +120,7 @@ export const analyzeImageWithML = async (imageData: string | Blob): Promise<MLAn
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ imageBase64 }),
+        body: JSON.stringify({ imageBase64, fileName }),
       }
     );
     
