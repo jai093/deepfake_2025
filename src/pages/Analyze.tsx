@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -10,6 +10,7 @@ import { AlertTriangle, Check, Download, Image, Mic, Video, Sparkles } from 'luc
 import WebcamAnalyzer from '@/components/WebcamAnalyzer';
 import AnalysisMetrics from '@/components/AnalysisMetrics';
 import { generateAnalysisResults, generateDownloadableReport, AnalysisResult } from '@/utils/analysisUtils';
+import { supabase } from '@/integrations/supabase/client';
 
 const defaultBaseMetrics = {
   authenticity: 0,
@@ -25,8 +26,29 @@ const Analyze = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisProgress, setAnalysisProgress] = useState(0);
   const [analysisResults, setAnalysisResults] = useState<AnalysisResult | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setIsAuthenticated(!!session);
+      if (!session && !loading) {
+        navigate('/auth');
+      }
+    });
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsAuthenticated(!!session);
+      setLoading(false);
+      if (!session) {
+        navigate('/auth');
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate, loading]);
 
   const safeAccess = (obj: any, path: string, defaultValue: any = 0) => {
     try {
@@ -166,6 +188,23 @@ const Analyze = () => {
         return null;
     }
   };
+
+  if (loading) {
+    return (
+      <Layout>
+        <div className="container mx-auto px-4 py-8 flex items-center justify-center min-h-[60vh]">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyber-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading...</p>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <Layout>

@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Analyze from "./pages/Analyze";
 import About from "./pages/About";
 import Docs from "./pages/Docs";
+import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/analyze" element={<Analyze />} />
           <Route path="/about" element={<About />} />
           <Route path="/docs" element={<Docs />} />
+          <Route path="/auth" element={<Auth />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

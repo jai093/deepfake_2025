@@ -1,11 +1,45 @@
 
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, LogOut, LogIn } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from './ui/use-toast';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setIsAuthenticated(!!session);
+    });
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsAuthenticated(!!session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleSignOut = async () => {
+    try {
+      await supabase.auth.signOut();
+      toast({
+        title: "Signed out",
+        description: "You have been successfully signed out.",
+      });
+      navigate('/');
+    } catch (error) {
+      console.error('Sign out error:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to sign out. Please try again.",
+      });
+    }
+  };
 
   return (
     <nav className="bg-background/80 backdrop-blur-md sticky top-0 z-50 border-b border-border">
@@ -49,6 +83,28 @@ const Navbar = () => {
             <Link to="/docs" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               Documentation
             </Link>
+            {isAuthenticated ? (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleSignOut}
+                className="ml-2 hover:bg-cyber-danger/10 hover:text-cyber-danger hover:border-cyber-danger transition-colors"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Sign Out
+              </Button>
+            ) : (
+              <Link to="/auth">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="ml-2 hover:bg-cyber-primary/10 hover:text-cyber-primary hover:border-cyber-primary transition-colors"
+                >
+                  <LogIn className="h-4 w-4 mr-2" />
+                  Sign In
+                </Button>
+              </Link>
+            )}
           </div>
           
           <div className="md:hidden">
@@ -96,6 +152,27 @@ const Navbar = () => {
             >
               Documentation
             </Link>
+            {isAuthenticated ? (
+              <button
+                onClick={() => {
+                  handleSignOut();
+                  setIsMenuOpen(false);
+                }}
+                className="w-full text-left py-2 px-4 rounded-md text-cyber-danger hover:bg-cyber-danger/10 transition-colors flex items-center"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Sign Out
+              </button>
+            ) : (
+              <Link 
+                to="/auth" 
+                className="block py-2 px-4 rounded-md text-cyber-primary hover:bg-cyber-primary/10 transition-colors flex items-center"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <LogIn className="h-4 w-4 mr-2" />
+                Sign In
+              </Link>
+            )}
           </div>
         </div>
       )}
