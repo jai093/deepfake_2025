@@ -99,7 +99,7 @@ const isVideoBlob = (b: Blob) => {
   return (f.type && f.type.startsWith('video/')) || (f.name && /\.(mp4|webm|mov|avi)$/i.test(f.name));
 };
 
-const extractVideoFrames = async (file: Blob | File, frameCount = 6): Promise<string[]> => {
+const extractVideoFrames = async (file: Blob | File, frameCount = 16): Promise<string[]> => {
   return new Promise(async (resolve, reject) => {
     try {
       const url = URL.createObjectURL(file);
@@ -163,7 +163,7 @@ export const analyzeImageWithML = async (imageData: string | Blob): Promise<MLAn
       isVideo = isVideoBlob(imageData);
       if (isVideo) {
         try {
-          framesBase64 = await extractVideoFrames(imageData as File, 6);
+          framesBase64 = await extractVideoFrames(imageData as File, 16);
           imageBase64 = framesBase64[0];
         } catch (e) {
           console.warn('Failed to extract video frames, sending raw base64 as fallback:', e);

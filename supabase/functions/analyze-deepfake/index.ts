@@ -29,8 +29,9 @@ serve(async (req) => {
         try {
           const hf = new HfInference(Deno.env.get('HUGGING_FACE_ACCESS_TOKEN'));
           let frameScores: number[] = [];
+          let fakeProbs: number[] = [];
           let perFrame: any[] = [];
-          const maxFrames = Math.min(8, framesBase64.length);
+          const maxFrames = Math.min(16, framesBase64.length);
           for (let i = 0; i < maxFrames; i++) {
             const b64 = framesBase64[i];
             const imageBuffer = Uint8Array.from(atob(b64.split(',')[1]), c => c.charCodeAt(0));
@@ -56,15 +57,17 @@ serve(async (req) => {
             perFrame.push(res);
             const fakeLabel = (res as any[]).find((r: any) => r.label.toLowerCase().includes('fake') || r.label.toLowerCase().includes('deepfake') || r.label.toLowerCase().includes('synthetic'));
             const realLabel = (res as any[]).find((r: any) => r.label.toLowerCase().includes('real') || r.label.toLowerCase().includes('authentic'));
-            let score = 0;
-            if (fakeLabel) score += fakeLabel.score * 100;
-            if (realLabel) score -= realLabel.score * 50;
+            const fakeProb = fakeLabel?.score ?? 0;
+            const realProb = realLabel?.score ?? 0;
+            const score = (fakeProb * 100) - (realProb * 50);
             frameScores.push(score);
+            fakeProbs.push(fakeProb);
           }
-          const avgScore = frameScores.reduce((a,b)=>a+b,0) / frameScores.length;
-          const framesFlagged = frameScores.filter(s => s > 45).length;
-          const isDeepfake = framesFlagged >= Math.ceil(maxFrames / 4) || avgScore > 50;
-          const confidence = Math.min(98, Math.max(72, isDeepfake ? 72 + avgScore/2 : 100 - avgScore/2));
+          const avgScore = frameScores.length ? frameScores.reduce((a,b)=>a+b,0) / frameScores.length : 0;
+          const avgFakeProb = fakeProbs.length ? fakeProbs.reduce((a,b)=>a+b,0) / fakeProbs.length : 0;
+          const framesFlagged = fakeProbs.filter(p => p > 0.15).length; // stricter per-frame flag
+          const isDeepfake = framesFlagged >= Math.max(2, Math.ceil(maxFrames / 8)) || avgFakeProb > 0.12 || avgScore > 20;
+          const confidence = Math.min(98, Math.max(60, isDeepfake ? 70 + (avgFakeProb * 30) + framesFlagged * 2 : 95 - (avgFakeProb * 30)));
           return new Response(
             JSON.stringify({
               isDeepfake,
