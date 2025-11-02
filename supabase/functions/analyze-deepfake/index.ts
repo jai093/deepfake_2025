@@ -35,19 +35,36 @@ serve(async (req) => {
             const b64 = framesBase64[i];
             const imageBuffer = Uint8Array.from(atob(b64.split(',')[1]), c => c.charCodeAt(0));
             const imageBlob = new Blob([imageBuffer], { type: 'image/jpeg' });
-            const res = await hf.imageClassification({ data: imageBlob, model: 'shreyankbr/FakeBuster' });
+            let res: any[] | null = null;
+            // Try FakeBuster first, then fall back to alternative models per frame
+            try {
+              res = await hf.imageClassification({ data: imageBlob, model: 'shreyankbr/FakeBuster' });
+            } catch (e1) {
+              console.warn('FakeBuster failed for frame', i, e1);
+              try {
+                res = await hf.imageClassification({ data: imageBlob, model: 'dima806/deepfake_vs_real_image_detection' });
+              } catch (e2) {
+                console.warn('dima806 fallback failed for frame', i, e2);
+                try {
+                  res = await hf.imageClassification({ data: imageBlob, model: 'maggleboy/av_deepfake_detection' });
+                } catch (e3) {
+                  console.error('All per-frame models failed for frame', i, e3);
+                  res = [] as any[]; // keep going, but this frame contributes 0
+                }
+              }
+            }
             perFrame.push(res);
-            const fakeLabel = res.find((r: any) => r.label.toLowerCase().includes('fake') || r.label.toLowerCase().includes('deepfake') || r.label.toLowerCase().includes('synthetic'));
-            const realLabel = res.find((r: any) => r.label.toLowerCase().includes('real') || r.label.toLowerCase().includes('authentic'));
+            const fakeLabel = (res as any[]).find((r: any) => r.label.toLowerCase().includes('fake') || r.label.toLowerCase().includes('deepfake') || r.label.toLowerCase().includes('synthetic'));
+            const realLabel = (res as any[]).find((r: any) => r.label.toLowerCase().includes('real') || r.label.toLowerCase().includes('authentic'));
             let score = 0;
             if (fakeLabel) score += fakeLabel.score * 100;
             if (realLabel) score -= realLabel.score * 50;
             frameScores.push(score);
           }
           const avgScore = frameScores.reduce((a,b)=>a+b,0) / frameScores.length;
-          const framesFlagged = frameScores.filter(s => s > 50).length;
-          const isDeepfake = framesFlagged >= Math.ceil(maxFrames / 3) || avgScore > 60;
-          const confidence = Math.min(97, Math.max(70, isDeepfake ? 70 + avgScore/2 : 100 - avgScore/2));
+          const framesFlagged = frameScores.filter(s => s > 45).length;
+          const isDeepfake = framesFlagged >= Math.ceil(maxFrames / 4) || avgScore > 50;
+          const confidence = Math.min(98, Math.max(72, isDeepfake ? 72 + avgScore/2 : 100 - avgScore/2));
           return new Response(
             JSON.stringify({
               isDeepfake,
@@ -144,6 +161,29 @@ serve(async (req) => {
         }
       } catch (e) {
         console.log('FakeBuster model unavailable, trying alternatives...', e);
+        // Try alternative deepfake detectors
+        try {
+          const alt1 = await hf.imageClassification({ data: imageBlob, model: 'dima806/deepfake_vs_real_image_detection' });
+          console.log('Alt deepfake detector (dima806) result:', alt1);
+          analysisResults.push({ model: 'dima806', result: alt1 });
+          const fakeLabelAlt = alt1.find((r: any) => r.label.toLowerCase().includes('fake') || r.label.toLowerCase().includes('deepfake'));
+          const realLabelAlt = alt1.find((r: any) => r.label.toLowerCase().includes('real') || r.label.toLowerCase().includes('authentic'));
+          if (fakeLabelAlt && fakeLabelAlt.score > 0.5) deepfakeScore += fakeLabelAlt.score * 100;
+          if (realLabelAlt && realLabelAlt.score > 0.5) deepfakeScore -= realLabelAlt.score * 50;
+        } catch (e2) {
+          console.log('dima806 model failed, trying maggleboy...', e2);
+          try {
+            const alt2 = await hf.imageClassification({ data: imageBlob, model: 'maggleboy/av_deepfake_detection' });
+            console.log('Alt deepfake detector (maggleboy) result:', alt2);
+            analysisResults.push({ model: 'maggleboy', result: alt2 });
+            const fakeLabelAlt2 = alt2.find((r: any) => r.label.toLowerCase().includes('fake') || r.label.toLowerCase().includes('deepfake'));
+            const realLabelAlt2 = alt2.find((r: any) => r.label.toLowerCase().includes('real') || r.label.toLowerCase().includes('authentic'));
+            if (fakeLabelAlt2 && fakeLabelAlt2.score > 0.5) deepfakeScore += fakeLabelAlt2.score * 100;
+            if (realLabelAlt2 && realLabelAlt2.score > 0.5) deepfakeScore -= realLabelAlt2.score * 50;
+          } catch (e3) {
+            console.log('All alternative deepfake models failed.', e3);
+          }
+        }
       }
       
       // Model 2: Face detection and analysis
