@@ -93,19 +93,93 @@ const analyzeWithMultiModel = (imageData: Blob): MLAnalysisResult => {
   };
 };
 
+// Video detection helpers
+const isVideoBlob = (b: Blob) => {
+  const f = b as File;
+  return (f.type && f.type.startsWith('video/')) || (f.name && /\.(mp4|webm|mov|avi)$/i.test(f.name));
+};
+
+const extractVideoFrames = async (file: Blob | File, frameCount = 6): Promise<string[]> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const url = URL.createObjectURL(file);
+      const video = document.createElement('video');
+      video.src = url;
+      video.muted = true;
+      (video as any).playsInline = true;
+
+      await new Promise<void>((res, rej) => {
+        video.addEventListener('loadedmetadata', () => res());
+        video.addEventListener('error', () => rej(new Error('Failed to load video metadata')));
+      });
+
+      const duration = Math.max(0.2, isFinite(video.duration) ? video.duration : 1);
+      const canvas = document.createElement('canvas');
+      const w = video.videoWidth || 512;
+      const h = video.videoHeight || 512;
+      const maxSide = 512;
+      const scale = Math.min(1, maxSide / Math.max(w, h));
+      canvas.width = Math.max(1, Math.floor(w * scale));
+      canvas.height = Math.max(1, Math.floor(h * scale));
+      const ctx = canvas.getContext('2d');
+      if (!ctx) throw new Error('Canvas 2D context not available');
+
+      const times: number[] = [];
+      for (let i = 1; i <= frameCount; i++) times.push((duration * i) / (frameCount + 1));
+
+      const frames: string[] = [];
+      for (const t of times) {
+        await new Promise<void>((res) => {
+          const onSeeked = () => {
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            frames.push(canvas.toDataURL('image/jpeg', 0.9));
+            video.removeEventListener('seeked', onSeeked);
+            res();
+          };
+          video.addEventListener('seeked', onSeeked);
+          const target = Math.min(duration - 0.05, Math.max(0.05, t));
+          try { video.currentTime = target; } catch { /* ignore */ }
+        });
+      }
+
+      URL.revokeObjectURL(url);
+      resolve(frames);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 export const analyzeImageWithML = async (imageData: string | Blob): Promise<MLAnalysisResult> => {
   try {
-    // Convert image to base64 for API call
-    let imageBase64: string;
+    // Convert media to base64 for API call (handle images and videos)
+    let imageBase64: string = '';
     let fileName: string = '';
-    
+    let framesBase64: string[] | undefined;
+    let isVideo = false;
+
     if (imageData instanceof Blob) {
       fileName = (imageData as File).name || '';
-      imageBase64 = await new Promise<string>((resolve) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result as string);
-        reader.readAsDataURL(imageData);
-      });
+      isVideo = isVideoBlob(imageData);
+      if (isVideo) {
+        try {
+          framesBase64 = await extractVideoFrames(imageData as File, 6);
+          imageBase64 = framesBase64[0];
+        } catch (e) {
+          console.warn('Failed to extract video frames, sending raw base64 as fallback:', e);
+          imageBase64 = await new Promise<string>((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.readAsDataURL(imageData);
+          });
+        }
+      } else {
+        imageBase64 = await new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.readAsDataURL(imageData);
+        });
+      }
     } else {
       imageBase64 = imageData;
     }
@@ -117,10 +191,8 @@ export const analyzeImageWithML = async (imageData: string | Blob): Promise<MLAn
       `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/analyze-deepfake`,
       {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ imageBase64, fileName }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ imageBase64, fileName, framesBase64 }),
       }
     );
     
