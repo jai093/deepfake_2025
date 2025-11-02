@@ -61,26 +61,36 @@ serve(async (req) => {
       let deepfakeScore = 0;
       let analysisResults: any[] = [];
       
-      // Model 1: Try specialized deepfake detection model first
+      // Model 1: Try FakeBuster - high accuracy deepfake detection model
       try {
-        console.log('Attempting specialized deepfake detection model...');
+        console.log('Attempting FakeBuster deepfake detection model...');
         const deepfakeResult = await hf.imageClassification({
           data: imageBlob,
-          model: 'dima806/deepfake_vs_real_image_detection', // Specialized deepfake detector
+          model: 'shreyankbr/FakeBuster', // High accuracy deepfake detector (>95%)
         });
-        console.log('Deepfake detection result:', deepfakeResult);
-        analysisResults.push({ model: 'deepfake_detector', result: deepfakeResult });
+        console.log('FakeBuster detection result:', deepfakeResult);
+        analysisResults.push({ model: 'fakebuster', result: deepfakeResult });
         
         // Check if classified as fake
         const fakeLabel = deepfakeResult.find((r: any) => 
           r.label.toLowerCase().includes('fake') || 
-          r.label.toLowerCase().includes('deepfake')
+          r.label.toLowerCase().includes('deepfake') ||
+          r.label.toLowerCase().includes('synthetic')
         );
         if (fakeLabel && fakeLabel.score > 0.5) {
           deepfakeScore += fakeLabel.score * 100;
         }
+        
+        // If real/authentic label has high confidence, reduce score
+        const realLabel = deepfakeResult.find((r: any) => 
+          r.label.toLowerCase().includes('real') || 
+          r.label.toLowerCase().includes('authentic')
+        );
+        if (realLabel && realLabel.score > 0.5) {
+          deepfakeScore -= realLabel.score * 50;
+        }
       } catch (e) {
-        console.log('Specialized deepfake model unavailable, trying alternatives...');
+        console.log('FakeBuster model unavailable, trying alternatives...', e);
       }
       
       // Model 2: Face detection and analysis

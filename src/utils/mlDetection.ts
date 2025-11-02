@@ -21,16 +21,16 @@ let classifier: any = null;
 export const initializeDetector = async () => {
   if (!classifier) {
     try {
-      // Using the av_deepfake_detection model
+      // Using FakeBuster - high accuracy deepfake detection model (>95% accuracy)
       classifier = await pipeline(
         'image-classification',
-        'maggleboy/av_deepfake_detection',
+        'shreyankbr/FakeBuster',
         { revision: 'main' }
       );
-      console.log('Deepfake detection model initialized successfully');
+      console.log('FakeBuster deepfake detection model initialized successfully');
       return classifier;
     } catch (error) {
-      console.error('Failed to initialize deepfake detection model:', error);
+      console.error('Failed to initialize FakeBuster model:', error);
       return null;
     }
   }
@@ -110,7 +110,7 @@ export const analyzeImageWithML = async (imageData: string | Blob): Promise<MLAn
       imageBase64 = imageData;
     }
     
-    console.log('Calling backend deepfake detection API with maggleboy/av_deepfake_detection...');
+    console.log('Calling backend deepfake detection API with shreyankbr/FakeBuster...');
     
     // Call the backend edge function
     const response = await fetch(
