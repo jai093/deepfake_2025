@@ -11,6 +11,7 @@ import WebcamAnalyzer from '@/components/WebcamAnalyzer';
 import AnalysisMetrics from '@/components/AnalysisMetrics';
 import { generateAnalysisResults, generateDownloadableReport, AnalysisResult } from '@/utils/analysisUtils';
 import { supabase } from '@/integrations/supabase/client';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
 
 const defaultBaseMetrics = {
   authenticity: 0,
@@ -836,6 +837,21 @@ const Analyze = () => {
               </TabsContent>
             </Tabs>
           </Card>
+          
+          <section aria-labelledby="hf-space-title" className="mt-10">
+            <h2 id="hf-space-title" className="font-display text-2xl font-bold mb-4 bg-gradient-to-r from-cyber-primary to-cyber-secondary bg-clip-text text-transparent">Embedded Deepfake Detection Space</h2>
+            <p className="text-sm text-muted-foreground mb-4">Try the multimodal Hugging Face Space directly below.</p>
+            <AspectRatio ratio={16 / 9} className="bg-muted rounded-lg border">
+              <iframe
+                src="https://subhojitsau-multimodal-deepfake-detection.hf.space"
+                title="Multimodal Deepfake Detection - Hugging Face Space"
+                className="w-full h-full rounded-lg"
+                frameBorder="0"
+                loading="lazy"
+                referrerPolicy="no-referrer"
+              />
+            </AspectRatio>
+          </section>
           
           <div className="mt-12 bg-background/50 backdrop-blur p-6 rounded-lg border shadow-sm">
             <h2 className="font-display text-2xl font-bold mb-6 bg-gradient-to-r from-cyber-primary to-cyber-secondary bg-clip-text text-transparent">How Our Analysis Works</h2>
