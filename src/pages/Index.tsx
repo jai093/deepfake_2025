@@ -2,6 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout';
+import heroImage from '@/assets/hero-deepfake.jpg';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -17,11 +18,11 @@ const Index = () => {
                 <span className="stat-badge">AI-Powered Protection</span>
               </div>
               <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-foreground">
-                Future With Next
-                <span className="block text-cyber-primary">Intel Processors</span>
+                Advanced Multimodal
+                <span className="block text-gradient-primary">Deepfake Detection</span>
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-xl leading-relaxed">
-                Experience Unmatched Speed, Performance, And Reliability For Work, Gaming And Creativity.
+                Experience cutting-edge AI technology that analyzes video, audio, and images to detect deepfakes with unmatched accuracy.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
                 <Button 
@@ -44,45 +45,28 @@ const Index = () => {
               {/* Stats Row */}
               <div className="grid grid-cols-3 gap-6 pt-8 border-t border-border">
                 <div>
-                  <div className="text-3xl font-bold text-cyber-primary mb-1">200M+</div>
-                  <div className="text-sm text-muted-foreground">Devices Powered</div>
+                  <div className="text-3xl font-bold text-cyber-primary mb-1">98.5%</div>
+                  <div className="text-sm text-muted-foreground">Detection Accuracy</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-cyber-primary mb-1">#1</div>
-                  <div className="text-sm text-muted-foreground">Choice of Experts</div>
+                  <div className="text-3xl font-bold text-cyber-secondary mb-1">3M+</div>
+                  <div className="text-sm text-muted-foreground">Media Analyzed</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-cyber-primary mb-1">95%</div>
-                  <div className="text-sm text-muted-foreground">User Satisfaction</div>
+                  <div className="text-3xl font-bold text-cyber-accent mb-1">Real-Time</div>
+                  <div className="text-sm text-muted-foreground">Processing Speed</div>
                 </div>
               </div>
             </div>
             
             <div className="relative">
-              <div className="absolute -inset-4 bg-gradient-to-r from-cyber-primary/20 to-cyber-accent/20 rounded-full blur-3xl"></div>
-              <div className="relative bg-card border-2 border-border rounded-3xl overflow-hidden shadow-2xl p-8">
-                <div className="aspect-square bg-gradient-to-br from-cyber-primary/10 to-cyber-accent/10 rounded-2xl flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="inline-block rounded-full bg-cyber-primary/20 p-6 mb-4">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="64"
-                        height="64"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="text-cyber-primary"
-                      >
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
-                      </svg>
-                    </div>
-                    <p className="text-muted-foreground font-medium">Optimized For Outstanding</p>
-                    <p className="text-2xl font-bold text-cyber-primary mt-2">Trusted Process</p>
-                  </div>
-                </div>
+              <div className="absolute -inset-4 bg-gradient-to-r from-cyber-primary/30 to-cyber-secondary/30 rounded-3xl blur-3xl"></div>
+              <div className="relative bg-card border-2 border-cyber-primary/30 rounded-3xl overflow-hidden shadow-2xl">
+                <img 
+                  src={heroImage} 
+                  alt="Multimodal Deepfake Detection Technology" 
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>
@@ -93,10 +77,10 @@ const Index = () => {
       <section className="py-20 md:py-32 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="stat-badge mb-4">Next-Gen Features</span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mb-6 mt-4">For Every Need</h2>
+            <span className="stat-badge mb-4">Advanced Detection Technology</span>
+            <h2 className="font-display text-4xl md:text-5xl font-bold mb-6 mt-4">Multimodal Analysis</h2>
             <p className="text-lg text-muted-foreground">
-              Our multimodal approach combines multiple analysis techniques for comprehensive deepfake detection
+              Our AI-powered system combines video, audio, and facial analysis for comprehensive deepfake detection
             </p>
           </div>
           
@@ -204,12 +188,12 @@ const Index = () => {
       {/* CTA Section */}
       <section className="py-20 md:py-32 relative bg-gradient-to-br from-cyber-primary/5 via-background to-cyber-accent/5">
         <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-card border-2 border-border rounded-3xl p-12 md:p-16 text-center shadow-2xl">
-              <span className="stat-badge mb-4">Trusted By 245K+ User</span>
-              <h2 className="font-display text-4xl md:text-5xl font-bold mb-6 mt-4">Ready to Analyze Media?</h2>
+            <div className="max-w-4xl mx-auto">
+            <div className="bg-card border-2 border-cyber-primary/30 rounded-3xl p-12 md:p-16 text-center shadow-2xl">
+              <span className="stat-badge mb-4">Trusted By 500K+ Users Worldwide</span>
+              <h2 className="font-display text-4xl md:text-5xl font-bold mb-6 mt-4">Ready to Detect Deepfakes?</h2>
               <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
-                Upload videos, audio, or images to get a comprehensive deepfake analysis powered by our multimodal AI system.
+                Upload your media files and let our advanced multimodal AI system analyze them for signs of manipulation and synthetic content.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button 

@@ -7,80 +7,80 @@
 
 @layer base {
   :root {
-    --background: 150 25% 97%;
-    --foreground: 160 10% 15%;
+    --background: 0 0% 5%;
+    --foreground: 0 0% 95%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 160 10% 15%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 160 10% 15%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 95%;
 
-    --primary: 160 45% 45%;
+    --primary: 142 76% 45%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 150 30% 85%;
-    --secondary-foreground: 160 10% 20%;
+    --secondary: 25 95% 53%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 150 20% 94%;
-    --muted-foreground: 160 8% 45%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
 
-    --accent: 160 50% 50%;
+    --accent: 142 76% 45%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 70% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 150 20% 88%;
-    --input: 150 20% 88%;
-    --ring: 160 45% 45%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 142 76% 45%;
 
     --radius: 1rem;
     
-    /* Custom modern colors */
-    --cyber-primary: 160 45% 45%;
-    --cyber-secondary: 150 40% 60%;
-    --cyber-accent: 170 50% 50%;
-    --cyber-success: 150 60% 45%;
-    --cyber-warning: 40 95% 55%;
+    /* Custom cyber colors - Black, Green, Orange theme */
+    --cyber-primary: 142 76% 45%;
+    --cyber-secondary: 25 95% 53%;
+    --cyber-accent: 142 76% 60%;
+    --cyber-success: 142 76% 45%;
+    --cyber-warning: 25 95% 53%;
     --cyber-danger: 0 70% 55%;
   }
 
   .dark {
-    --background: 160 15% 8%;
-    --foreground: 150 10% 95%;
+    --background: 0 0% 3%;
+    --foreground: 0 0% 98%;
 
-    --card: 160 12% 12%;
-    --card-foreground: 150 10% 95%;
+    --card: 0 0% 6%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 160 12% 12%;
-    --popover-foreground: 150 10% 95%;
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 160 45% 55%;
+    --primary: 142 76% 50%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 160 20% 20%;
-    --secondary-foreground: 150 10% 95%;
+    --secondary: 25 95% 58%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 160 15% 18%;
-    --muted-foreground: 150 10% 65%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 160 50% 55%;
+    --accent: 142 76% 50%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 70% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 160 15% 18%;
-    --input: 160 15% 18%;
-    --ring: 160 45% 55%;
+    --border: 0 0% 12%;
+    --input: 0 0% 12%;
+    --ring: 142 76% 50%;
     
-    /* Custom modern colors - dark mode */
-    --cyber-primary: 160 45% 55%;
-    --cyber-secondary: 150 40% 65%;
-    --cyber-accent: 170 50% 55%;
-    --cyber-success: 150 60% 50%;
-    --cyber-warning: 40 95% 60%;
+    /* Custom cyber colors - dark mode */
+    --cyber-primary: 142 76% 50%;
+    --cyber-secondary: 25 95% 58%;
+    --cyber-accent: 142 76% 65%;
+    --cyber-success: 142 76% 50%;
+    --cyber-warning: 25 95% 58%;
     --cyber-danger: 0 70% 60%;
   }
 }
