@@ -5,18 +5,19 @@ import { Card, CardContent } from '@/components/ui/card';
 const About = () => {
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-8 md:py-16">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-12">
-            <h1 className="font-display text-4xl font-bold mb-4">About Our Project</h1>
-            <p className="text-xl text-muted-foreground">
+      <div className="container mx-auto px-4 py-16 md:py-24">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-16">
+            <span className="stat-badge mb-4">Our Mission</span>
+            <h1 className="font-display text-5xl md:text-6xl font-bold mb-6 mt-4">About Our Project</h1>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               Fighting misinformation with advanced AI technology
             </p>
           </div>
 
-          <div className="prose prose-lg max-w-none">
-            <Card className="mb-8">
-              <CardContent className="pt-6">
+          <div className="space-y-8">
+            <Card className="feature-card border-2">
+              <CardContent className="pt-8">
                 <h2 className="text-2xl font-display font-bold mb-4">Our Mission</h2>
                 <p className="mb-4 text-muted-foreground">
                   With the increasing misuse of AI tools, deepfake content — including manipulated 
@@ -32,8 +33,8 @@ const About = () => {
               </CardContent>
             </Card>
 
-            <Card className="mb-8">
-              <CardContent className="pt-6">
+            <Card className="feature-card border-2">
+              <CardContent className="pt-8">
                 <h2 className="text-2xl font-display font-bold mb-4">Technology</h2>
                 <p className="mb-4 text-muted-foreground">
                   Our detection system uses multimodal AI techniques to analyze different aspects of media:
@@ -98,8 +99,8 @@ const About = () => {
               </CardContent>
             </Card>
 
-            <Card className="mb-8">
-              <CardContent className="pt-6">
+            <Card className="feature-card border-2">
+              <CardContent className="pt-8">
                 <h2 className="text-2xl font-display font-bold mb-4">Training Data</h2>
                 <p className="mb-4 text-muted-foreground">
                   Our AI models are trained on high-quality datasets specifically designed for deepfake detection:
@@ -127,8 +128,8 @@ const About = () => {
               </CardContent>
             </Card>
 
-            <Card>
-              <CardContent className="pt-6">
+            <Card className="feature-card border-2">
+              <CardContent className="pt-8">
                 <h2 className="text-2xl font-display font-bold mb-4">Future Development</h2>
                 <p className="mb-4 text-muted-foreground">
                   MediaWatchdog is constantly evolving to keep pace with advancements in deepfake technology. 

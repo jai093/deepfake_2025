@@ -7,81 +7,81 @@
 
 @layer base {
   :root {
-    --background: 220 33% 98%;
-    --foreground: 224 71.4% 4.1%;
+    --background: 150 25% 97%;
+    --foreground: 160 10% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
+    --card-foreground: 160 10% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
+    --popover-foreground: 160 10% 15%;
 
-    --primary: 221 83% 53%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 160 45% 45%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 226 70% 55.9%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 150 30% 85%;
+    --secondary-foreground: 160 10% 20%;
 
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
+    --muted: 150 20% 94%;
+    --muted-foreground: 160 8% 45%;
 
-    --accent: 250 95% 64%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 160 50% 50%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 224 71.4% 4.1%;
+    --border: 150 20% 88%;
+    --input: 150 20% 88%;
+    --ring: 160 45% 45%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
     
-    /* Custom cyber colors */
-    --cyber-primary: 221 83% 53%;
-    --cyber-secondary: 250 95% 64%;
-    --cyber-accent: 190 95% 39%;
-    --cyber-success: 142 76% 36%;
-    --cyber-warning: 38 92% 50%;
-    --cyber-danger: 0 84% 60%;
+    /* Custom modern colors */
+    --cyber-primary: 160 45% 45%;
+    --cyber-secondary: 150 40% 60%;
+    --cyber-accent: 170 50% 50%;
+    --cyber-success: 150 60% 45%;
+    --cyber-warning: 40 95% 55%;
+    --cyber-danger: 0 70% 55%;
   }
 
   .dark {
-    --background: 224 71.4% 4.1%;
-    --foreground: 210 40% 98%;
+    --background: 160 15% 8%;
+    --foreground: 150 10% 95%;
 
-    --card: 224 71.4% 4.1%;
-    --card-foreground: 210 40% 98%;
+    --card: 160 12% 12%;
+    --card-foreground: 150 10% 95%;
 
-    --popover: 224 71.4% 4.1%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 160 12% 12%;
+    --popover-foreground: 150 10% 95%;
 
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 160 45% 55%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 226 57.9% 50.1%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 160 20% 20%;
+    --secondary-foreground: 150 10% 95%;
 
-    --muted: 215 27.9% 16.9%;
-    --muted-foreground: 217.9 10.6% 64.9%;
+    --muted: 160 15% 18%;
+    --muted-foreground: 150 10% 65%;
 
-    --accent: 250 95% 64%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 160 50% 55%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 215 27.9% 16.9%;
-    --input: 215 27.9% 16.9%;
-    --ring: 216 12.2% 83.9%;
+    --border: 160 15% 18%;
+    --input: 160 15% 18%;
+    --ring: 160 45% 55%;
     
-    /* Custom cyber colors - dark mode */
-    --cyber-primary: 221 83% 60%;
-    --cyber-secondary: 250 95% 70%;
-    --cyber-accent: 190 95% 50%;
-    --cyber-success: 142 76% 45%;
-    --cyber-warning: 38 92% 60%;
-    --cyber-danger: 0 84% 70%;
+    /* Custom modern colors - dark mode */
+    --cyber-primary: 160 45% 55%;
+    --cyber-secondary: 150 40% 65%;
+    --cyber-accent: 170 50% 55%;
+    --cyber-success: 150 60% 50%;
+    --cyber-warning: 40 95% 60%;
+    --cyber-danger: 0 70% 60%;
   }
 }
 
@@ -109,24 +109,24 @@
   @apply bg-gradient-to-r from-cyber-secondary to-cyber-accent bg-clip-text text-transparent;
 }
 
-.bg-gradient-blue {
-  @apply bg-gradient-to-r from-blue-500 to-indigo-600;
-}
-
-.bg-gradient-purple {
-  @apply bg-gradient-to-r from-purple-500 to-pink-500;
-}
-
-.bg-gradient-green {
-  @apply bg-gradient-to-r from-green-400 to-emerald-500;
+.bg-gradient-modern {
+  @apply bg-gradient-to-br from-cyber-primary/10 via-cyber-secondary/10 to-transparent;
 }
 
 .bg-glass {
-  @apply bg-white/10 backdrop-blur-lg border border-white/20;
+  @apply bg-background/60 backdrop-blur-xl border border-border/50;
 }
 
 .card-hover {
-  @apply transition-all duration-300 hover:shadow-lg hover:border-cyber-primary/30;
+  @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-cyber-primary/40;
+}
+
+.feature-card {
+  @apply bg-card border border-border rounded-2xl p-8 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2;
+}
+
+.stat-badge {
+  @apply inline-flex items-center justify-center rounded-full bg-cyber-primary/10 px-6 py-3 text-sm font-semibold text-cyber-primary;
 }
 
 /* Animation classes */
