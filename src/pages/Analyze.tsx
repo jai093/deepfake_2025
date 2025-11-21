@@ -59,15 +59,24 @@ const Analyze = () => {
               </p>
             </div>
             <div className="bg-card rounded-lg border shadow-lg overflow-hidden" style={{ minHeight: '800px' }}>
-              <iframe
+              {/* <iframe
                 src="https://subhojitsau-multimodal-deepfake-detection.hf.space"
                 title="Multimodal Deepfake Detection - Hugging Face Space"
                 className="w-full rounded-lg"
                 style={{ height: '800px' }}
                 frameBorder="0"
                 loading="lazy"
-                referrerPolicy="no-referrer"
-              />
+                referrerPolicy="no-referrer" */}
+              <iframe
+  src="https://subhojitsau-multimodal-deepfake-detection.hf.space"
+  title="Multimodal Deepfake Detection - Hugging Face Space"
+  className="w-full rounded-lg"
+  style={{ height: '800px' }}
+  frameBorder="0"
+  loading="lazy"
+  referrerPolicy="no-referrer"
+  allow="microphone; camera"
+/>
             </div>
           </section>
           
