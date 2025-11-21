@@ -42,7 +42,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-background/80 backdrop-blur-md sticky top-0 z-50 border-b border-border">
+    <nav className="bg-background/95 backdrop-blur-xl sticky top-0 z-50 border-b border-border shadow-sm">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
@@ -66,7 +66,7 @@ const Navbar = () => {
                   </svg>
                 </div>
               </div>
-              <span className="font-display font-bold text-lg text-foreground">MediaWatchdog</span>
+              <span className="font-display font-bold text-xl text-foreground">MediaWatchdog</span>
             </Link>
           </div>
           
