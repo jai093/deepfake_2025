@@ -77,7 +77,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="stat-badge mb-4">Advanced Detection Technology</span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mb-6 mt-4">Multimodal Analysis</h2>
+            <h2 className="font-display text-4xl md:text-5xl font-bold mb-6 mt-4">DeepFake Detection</h2>
             <p className="text-lg text-muted-foreground">
               Our AI-powered system combines video, audio, and facial analysis for comprehensive deepfake detection
             </p>
@@ -192,7 +192,7 @@ const Index = () => {
               <span className="stat-badge mb-4">Trusted By 500K+ Users Worldwide</span>
               <h2 className="font-display text-4xl md:text-5xl font-bold mb-6 mt-4">Ready to Detect Deepfakes?</h2>
               <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
-                Upload your media files and let our advanced multimodal AI system analyze them for signs of manipulation and synthetic content.
+                Upload your media files and let our advanced DeepFake AI system analyze them for signs of manipulation and synthetic content.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button 
