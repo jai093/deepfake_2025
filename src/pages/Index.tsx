@@ -18,7 +18,6 @@ const Index = () => {
                 <span className="stat-badge">AI-Powered Protection</span>
               </div>
               <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-foreground">
-                Advanced Multimodal
                 <span className="block text-gradient-primary">Deepfake Detection</span>
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-xl leading-relaxed">
