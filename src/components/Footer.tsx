@@ -32,7 +32,7 @@ const Footer = () => {
               <span className="font-display font-bold text-lg text-foreground">MediaWatchdog</span>
             </div>
             <p className="mt-4 text-sm text-muted-foreground max-w-xs">
-              Protecting digital integrity through advanced deepfake detection powered by multimodal AI technology.
+              Protecting digital integrity through advanced deepfake detection powered by AI technology.
             </p>
           </div>
           

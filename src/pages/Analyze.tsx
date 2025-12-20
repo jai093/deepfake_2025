@@ -52,7 +52,7 @@ const Analyze = () => {
           <section aria-labelledby="hf-space-title" className="mb-10">
             <div className="text-center mb-6">
               <h1 id="hf-space-title" className="font-display text-4xl font-bold mb-3 bg-gradient-to-r from-cyber-primary to-cyber-secondary bg-clip-text text-transparent">
-                Multimodal Deepfake Detection
+                Deepfake Detection
               </h1>
               <p className="text-muted-foreground text-lg">
                 Upload video, audio, or images to detect deepfakes using ResNet50 and InceptionV3 models
@@ -69,7 +69,7 @@ const Analyze = () => {
                 referrerPolicy="no-referrer" */}
               <iframe
   src="https://subhojitsau-multimodal-deepfake-detection.hf.space"
-  title="Multimodal Deepfake Detection - Hugging Face Space"
+  title="Deepfake Detection - Hugging Face Space"
   className="w-full rounded-lg"
   style={{ height: '800px' }}
   frameBorder="0"
@@ -124,7 +124,7 @@ const Analyze = () => {
                       <path d="M2 12h20" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-medium mb-2 group-hover:text-cyber-secondary transition-colors">Multimodal Analysis</h3>
+                  <h3 className="text-lg font-medium mb-2 group-hover:text-cyber-secondary transition-colors">Deepfake Analysis</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">
                     We combine analysis of visual cues, audio patterns, and metadata using DFD dataset insights for a comprehensive assessment of media authenticity.
                   </p>
