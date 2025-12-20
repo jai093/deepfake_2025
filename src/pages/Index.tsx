@@ -41,21 +41,6 @@ const Index = () => {
                 </Button>
               </div>
               
-              {/* Stats Row */}
-              <div className="grid grid-cols-3 gap-6 pt-8 border-t border-border">
-                <div>
-                  <div className="text-3xl font-bold text-cyber-primary mb-1">98.5%</div>
-                  <div className="text-sm text-muted-foreground">Detection Accuracy</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-cyber-secondary mb-1">3M+</div>
-                  <div className="text-sm text-muted-foreground">Media Analyzed</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-cyber-accent mb-1">Real-Time</div>
-                  <div className="text-sm text-muted-foreground">Processing Speed</div>
-                </div>
-              </div>
             </div>
             
             <div className="relative">
@@ -63,7 +48,7 @@ const Index = () => {
               <div className="relative bg-card border-2 border-cyber-primary/30 rounded-3xl overflow-hidden shadow-2xl">
                 <img 
                   src={heroImage} 
-                  alt="Multimodal Deepfake Detection Technology" 
+                  alt="Deepfake Detection Technology" 
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -189,7 +174,7 @@ const Index = () => {
         <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto">
             <div className="bg-card border-2 border-cyber-primary/30 rounded-3xl p-12 md:p-16 text-center shadow-2xl">
-              <span className="stat-badge mb-4">Trusted By 500K+ Users Worldwide</span>
+              
               <h2 className="font-display text-4xl md:text-5xl font-bold mb-6 mt-4">Ready to Detect Deepfakes?</h2>
               <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
                 Upload your media files and let our advanced DeepFake AI system analyze them for signs of manipulation and synthetic content.

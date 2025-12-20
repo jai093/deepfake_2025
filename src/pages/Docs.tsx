@@ -29,7 +29,7 @@ const Docs = () => {
                 <CardHeader>
                   <CardTitle>MediaWatchdog Overview</CardTitle>
                   <CardDescription>
-                    Understanding our multimodal deepfake detection system
+                    Understanding our deepfake detection system
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">

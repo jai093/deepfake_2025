@@ -37,7 +37,7 @@ const About = () => {
               <CardContent className="pt-8">
                 <h2 className="text-2xl font-display font-bold mb-4">Technology</h2>
                 <p className="mb-4 text-muted-foreground">
-                  Our detection system uses multimodal AI techniques to analyze different aspects of media:
+                  Our detection system uses advanced AI techniques to analyze different aspects of media:
                 </p>
                 <ul className="space-y-2 mb-4">
                   <li className="flex items-start gap-2 text-muted-foreground">
